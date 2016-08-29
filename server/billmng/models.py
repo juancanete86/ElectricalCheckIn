@@ -16,7 +16,7 @@ class User(models.Model):
     zipcode = models.CharField(max_length=30)
     age = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
-class Bills(models.Model):
+class Bill(models.Model):
     identifier = models.CharField(max_length=20, primary_key=True)
     user = models.ForeignKey(User)
     bill_date = models.DateTimeField(default=timezone.now)
