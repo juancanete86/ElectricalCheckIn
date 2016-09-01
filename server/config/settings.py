@@ -24,9 +24,9 @@ BASE_DIR_CLIENT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspat
 SECRET_KEY = 'in+hibk%wh1&x$&a#30=flhjp&pv62@4qck59)^l*o++i(t=_x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
