@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+ <head>
+     <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    {% load staticfiles %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-cookies.min.js"></script>
+
+    <script src="{% static "js/app.js" %}"></script>
+    <script src="{% static "js/controller/controllers.js" %}"></script>
+    <script src="{% static "js/services/services.js" %}"></script>
+    <script src="{% static "js/external/jquery.min.js" %}"></script>
+    <script src="{% static "js/external/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/external/Chart.min.js" %}"></script>
+    <script src="{% static "js/external/angular-chart.min.js" %}"></script>
+
+    <style>
+        canvas {
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+{% block extrahead %}{% endblock %}
+  </head>
+ <body data-ng-app="billApp">
+ <script type="text/ng-template" id="user.html">
+    {% include "views/user.html" %}
+  </script>
+ <script type="text/ng-template" id="user-info.html">
+    {% include "views/user-info.html" %}
+  </script>
+ <script type="text/ng-template" id="bill.html">
+    {% include "views/bill.html" %}
+  </script>
+ <script type="text/ng-template" id="bill-new.html">
+    {% include "views/bill-new.html" %}
+  </script>
+
+ <!--Bootstrap-->
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Electrical Manager</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#/users">Users</a></li>
+              <li role="separator" class="divider"></li>
+            <li><a href="#/bills">Bills</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form action="#/userbills/080123123F" class="navbar-form navbar-right">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search by User Id Card">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+    </div><!-- /.navbar-collapse -->
+
+      <div ng-view>Loading...</div>
+  </div><!-- /.container-fluid -->
+</nav>
+    <div style="width:75%;">
+    <canvas id="canvas"></canvas>
+    </div>
+    <br>
+    <br>
+
+    <script>
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var scalingFactor = function() {
+            var listData = {{ amount_list|safe }};
+
+            return listData;
+        };
+
+        var monthsArray = function (listAmount) {
+            return months.slice(0, listAmount.length)
+        }
+
+        var randomColorFactor = function() {
+            return Math.round(Math.random() * 255);
+        };
+        var randomColor = function(opacity) {
+            return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+        };
+        var config = {
+            type: 'line',
+            data: {
+                labels: monthsArray({{ amount_list|safe }}),
+                datasets: [{
+                    label: "Bill Dataset",
+                    data: scalingFactor(),
+                    fill: false,
+                    borderDash: [5, 5],
+                }]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'bottom',
+                },
+                hover: {
+                    mode: 'label'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Month'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Value'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Bills Progress Chart'
+                }
+            }
+        };
+        $.each(config.data.datasets, function(i, dataset) {
+            var background = randomColor(0.5);
+            dataset.borderColor = background;
+            dataset.backgroundColor = background;
+            dataset.pointBorderColor = background;
+            dataset.pointBackgroundColor = background;
+            dataset.pointBorderWidth = 1;
+        });
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            window.myLine = new Chart(ctx, config);
+        };
+
+    </script>
+ </body>
+ </html>

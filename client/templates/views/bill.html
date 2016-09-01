@@ -1,0 +1,39 @@
+<div class="row">
+  <h4 class="col-sm-10">Bills</h4>
+  <div class="col-sm-2">
+    <a href="#/bill-new" class="btn btn-primary btn-xs">New bill</a>
+      <a href="chart" class="btn btn-primary btn-xs">Show Plot</a>
+  </div>
+
+  <div data-ng-controller="BillCtrl" class="collapse navbar-collapse" id="js-navbar-collapse">
+            <table class="table table-striped">
+                <tr>
+                  <th>Identifier</th>
+                    <th>Username Id Card</th>
+                    <th>Date</th>
+                    <th>Taxes</th>
+                    <th>Power Consumed</th>
+                    <th>Total</th>
+                </tr>
+                  {% verbatim %}
+                    <tr data-ng-repeat="bill in bills">
+                      <td>{{bill.identifier}}</td>
+                        <td>{{bill.user}}</td>
+                        <td>{{bill.bill_date}}</td>
+                        <td>{{bill.taxes}} %</td>
+                        <td>{{bill.power_consumed}} kwh</td>
+                      <td>{{bill.amount_price}} €</td>
+                        <td>
+                        <a href="#/billsdel/{{bill.identifier}}" class="btn btn-primary btn-xs">Delete</a>
+                        </td>
+                        <td>
+                        <a href="#/bill-edit/{{bill.identifier}}" class="btn btn-primary btn-xs">Edit</a>
+                        </td>
+                    </tr>
+                  {% endverbatim %}
+              </table>
+          </div>
+
+</div>
+
+

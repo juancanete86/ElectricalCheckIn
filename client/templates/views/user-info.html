@@ -1,0 +1,37 @@
+<div data-ng-controller="CurrentUserCtrl" class="collapse navbar-collapse" id="js-navbar-collapse">
+    {% verbatim %}
+    <div class="container-fluid">
+        <p>
+            <strong>Identification Card: </strong><span>{{ users[0].id_card }}</span>
+        </p>
+        <p>
+            <strong>Username: </strong><span>{{ users[0].username }}</span>
+        </p>
+        <p>
+            <strong>First Name: </strong><span>{{ users[0].first_name }}</span>
+        </p>
+
+        <p>
+            <strong>Last Name: </strong><span>{{ users[0].last_name }}</span>
+        </p>
+        <p>
+            <strong>Address: </strong><span>{{ users[0].address }}</span>
+        </p>
+        <p>
+            <strong>City: </strong><span>{{ users[0].city }}</span>
+        </p>
+        <p>
+            <strong>Province: </strong><span>{{ users[0].province}}</span>
+        </p>
+        <p>
+            <strong>Country: </strong><span>{{ users[0].country }}</span>
+        </p>
+        <p>
+            <strong>Zipcode: </strong><span>{{ users[0].zipcode }}</span>
+        </p>
+        <p>
+            <strong>Age: </strong><span>{{ users[0].age }}</span>
+        </p>
+    </div>
+    {% endverbatim %}
+</div>
